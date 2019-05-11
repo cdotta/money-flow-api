@@ -1,26 +1,31 @@
 import Express from 'express';
-import { ApolloServer, gql } from 'apollo-server-express';
+import { ApolloServer } from 'apollo-server-express';
+import { Resolver, Query, buildSchema } from 'type-graphql';
 
 const app: Express.Application = Express();
 
-const typeDefs = gql`
-  type Query {
-    hello: String
+@Resolver()
+class HelloResolver {
+  @Query(() => String)
+  async hello() {
+    return 'Hello world from Graphql';
   }
-`;
+}
 
-const resolvers = {
-  Query: {
-    hello: () => 'Hello world from Graphql',
-  },
-};
+async function setup(): Promise<Express.Application> {
+  const schema = await buildSchema({
+    resolvers: [HelloResolver],
+  });
 
-const server = new ApolloServer({ typeDefs, resolvers });
+  const server = new ApolloServer({ schema });
 
-server.applyMiddleware({ app });
+  server.applyMiddleware({ app });
 
-app.get('/', (req, res) => {
-  res.send('Hello world from REST');
-});
+  app.get('/', (req, res) => {
+    res.send('Hello world from REST');
+  });
 
-export { app };
+  return app;
+}
+
+export { setup };

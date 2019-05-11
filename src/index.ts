@@ -1,5 +1,8 @@
-import { app } from './app';
+import 'reflect-metadata';
+import { setup } from './app';
 
-app.listen(3000, () => {
-  console.log('listening at 3000');
+setup().then(app => {
+  app.listen(3000, () => {
+    console.log('listening at 3000');
+  });
 });

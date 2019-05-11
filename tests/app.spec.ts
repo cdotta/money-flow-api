@@ -1,7 +1,14 @@
+import Express from 'express';
 import supertest from 'supertest';
-import { app } from '../src/app';
+import { setup } from '../src/app';
 
 describe('app', () => {
+  let app: Express.Application;
+
+  beforeAll(async () => {
+    app = await setup();
+  });
+
   const helloQuery = {
     query: `
       query {
