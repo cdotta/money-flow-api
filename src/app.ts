@@ -1,16 +1,9 @@
-import Express from 'express';
 import { ApolloServer } from 'apollo-server-express';
-import { Resolver, Query, buildSchema } from 'type-graphql';
+import { buildSchema } from 'type-graphql';
+import Express from 'express';
+import { HelloResolver } from './hello/resolver';
 
 const app: Express.Application = Express();
-
-@Resolver()
-class HelloResolver {
-  @Query(() => String)
-  async hello() {
-    return 'Hello world from Graphql';
-  }
-}
 
 async function setup(): Promise<Express.Application> {
   const schema = await buildSchema({
