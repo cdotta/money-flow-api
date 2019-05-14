@@ -2,12 +2,13 @@ import { ApolloServer } from 'apollo-server-express';
 import { buildSchema } from 'type-graphql';
 import Express from 'express';
 import { HelloResolver } from './hello/resolver';
+import { PaymentResolver } from './payments/resolver';
 
 const app: Express.Application = Express();
 
 async function setup(): Promise<Express.Application> {
   const schema = await buildSchema({
-    resolvers: [HelloResolver],
+    resolvers: [HelloResolver, PaymentResolver],
   });
 
   const server = new ApolloServer({ schema });
