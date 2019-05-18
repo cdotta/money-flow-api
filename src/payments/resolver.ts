@@ -5,13 +5,15 @@ import { PaymentInput } from './input';
 
 @Resolver()
 export class PaymentResolver {
+  constructor(private readonly paymentService: PaymentService) {}
+
   @Query(() => [Payment])
   payments(): Promise<Payment[]> {
-    return PaymentService.all();
+    return this.paymentService.all();
   }
 
   @Mutation(() => Payment)
   async createPayment(@Arg('data') data: PaymentInput) {
-    return PaymentService.create(data);
+    return this.paymentService.create(data);
   }
 }

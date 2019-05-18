@@ -1,15 +1,22 @@
-import { getConnection, getRepository } from 'typeorm';
+import { getRepository, Repository } from 'typeorm';
+import { Service } from 'typedi';
 import { Payment } from './entity';
 import { PaymentInput } from './input';
 
+@Service()
 export class PaymentService {
-  static create(data: PaymentInput): Promise<Payment> {
-    const repo = getRepository(Payment);
-    const payment = new Payment(data);
-    return repo.save(payment);
+  private repository: Repository<Payment>;
+
+  constructor() {
+    console.log('new Payment Service');
+    this.repository = getRepository(Payment);
   }
-  static all(): Promise<Payment[]> {
-    const repo = getRepository(Payment);
-    return repo.find();
+
+  create(data: PaymentInput): Promise<Payment> {
+    const payment = new Payment(data);
+    return this.repository.save(payment);
+  }
+  all(): Promise<Payment[]> {
+    return this.repository.find();
   }
 }

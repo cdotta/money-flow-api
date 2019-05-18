@@ -3,11 +3,13 @@ import { buildSchema } from 'type-graphql';
 import Express from 'express';
 import { HelloResolver } from './hello/resolver';
 import { PaymentResolver } from './payments/resolver';
+import Container from 'typedi';
 
 const app: Express.Application = Express();
 
 async function setup(): Promise<Express.Application> {
   const schema = await buildSchema({
+    container: Container,
     resolvers: [HelloResolver, PaymentResolver],
   });
 
