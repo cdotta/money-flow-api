@@ -1,0 +1,25 @@
+"""
+The javascript `Date` as string. Type represents date and time as the ISO Date string.
+"""
+scalar DateTime
+
+type Mutation {
+  createPayment(data: PaymentInput!): Payment!
+}
+
+type Payment {
+  id: ID!
+  description: String!
+  amount: Float!
+  paidAt: DateTime
+}
+
+input PaymentInput {
+  description: String!
+  amount: Float!
+}
+
+type Query {
+  hello: String!
+  payments: [Payment!]!
+}

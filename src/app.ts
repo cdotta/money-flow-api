@@ -7,10 +7,12 @@ import Container from 'typedi';
 
 const app: Express.Application = Express();
 
-async function setup(): Promise<Express.Application> {
+export const resolvers = [HelloResolver, PaymentResolver];
+
+export async function setup(): Promise<Express.Application> {
   const schema = await buildSchema({
     container: Container,
-    resolvers: [HelloResolver, PaymentResolver],
+    resolvers,
   });
 
   const server = new ApolloServer({ schema });
@@ -23,5 +25,3 @@ async function setup(): Promise<Express.Application> {
 
   return app;
 }
-
-export { setup };

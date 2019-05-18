@@ -9,7 +9,8 @@
     "format": "pretty-quick --staged",
     "lint": "eslint .",
     "prettier": "prettier --write \"src/**/*.ts\" \"tests/**/*.ts\"",
-    "test": "jest"
+    "test": "jest",
+    "print-schema": "ts-node-dev ./src/utilities/printSchema.ts"
   },
   "author": "",
   "license": "ISC",
