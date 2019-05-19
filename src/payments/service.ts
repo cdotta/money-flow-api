@@ -1,5 +1,7 @@
-import { getRepository, Repository } from 'typeorm';
+import { Connection, Repository } from 'typeorm';
+import { plainToClass } from 'class-transformer';
 import { Service } from 'typedi';
+
 import { Payment } from './entity';
 import { PaymentInput } from './input';
 
@@ -7,15 +9,24 @@ import { PaymentInput } from './input';
 export class PaymentService {
   private repository: Repository<Payment>;
 
-  constructor() {
-    console.log('new Payment Service');
-    this.repository = getRepository(Payment);
+  constructor(private readonly connection: Connection) {
+    this.repository = this.connection.getRepository(Payment);
   }
 
   create(data: PaymentInput): Promise<Payment> {
-    const payment = new Payment(data);
+    const payment: Payment = plainToClass(Payment, data);
     return this.repository.save(payment);
   }
+
+  async update(id: string, data: PaymentInput) {
+    const payment = await this.repository.findOne(id);
+    if (!payment) {
+      throw new Error('not_found');
+    }
+    const newPayment: Payment = plainToClass(Payment, { ...payment, ...data });
+    return this.repository.save(newPayment);
+  }
+
   all(): Promise<Payment[]> {
     return this.repository.find();
   }

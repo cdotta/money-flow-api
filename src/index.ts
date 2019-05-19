@@ -1,16 +1,12 @@
 import 'reflect-metadata';
-import { setup } from './app';
-import { createConnection } from 'typeorm';
+import { setup as setupApp } from './app';
+import { setup as setupDB } from './db';
 
-setup()
-  .then(async app => {
-    try {
-      await createConnection();
-      app.listen(3000, () => {
-        console.log('listening at 3000');
-      });
-    } catch (error) {
-      console.log(error);
-    }
+setupDB()
+  .then(setupApp)
+  .then(app => {
+    app.listen(3000, () => {
+      console.log('listening at 3000');
+    });
   })
   .catch(error => console.log(error));

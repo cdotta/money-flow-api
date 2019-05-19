@@ -4,6 +4,7 @@ import fs from 'fs';
 import { printSchema } from 'graphql';
 import { buildSchema } from 'type-graphql';
 import { Container } from 'typedi';
+
 import { resolvers } from '../app';
 
 async function logSchema() {

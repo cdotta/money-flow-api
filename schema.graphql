@@ -5,6 +5,7 @@ scalar DateTime
 
 type Mutation {
   createPayment(data: PaymentInput!): Payment!
+  updatePayment(data: PaymentInput!, id: String!): Payment!
 }
 
 type Payment {

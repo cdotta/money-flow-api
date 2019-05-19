@@ -1,9 +1,10 @@
 import { ApolloServer } from 'apollo-server-express';
 import { buildSchema } from 'type-graphql';
+import { Container } from 'typedi';
 import Express from 'express';
+
 import { HelloResolver } from './hello/resolver';
 import { PaymentResolver } from './payments/resolver';
-import Container from 'typedi';
 
 const app: Express.Application = Express();
 

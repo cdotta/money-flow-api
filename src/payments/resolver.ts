@@ -1,4 +1,5 @@
 import { Resolver, Query, Mutation, Arg } from 'type-graphql';
+
 import { Payment } from './entity';
 import { PaymentService } from './service';
 import { PaymentInput } from './input';
@@ -15,5 +16,10 @@ export class PaymentResolver {
   @Mutation(() => Payment)
   async createPayment(@Arg('data') data: PaymentInput) {
     return this.paymentService.create(data);
+  }
+
+  @Mutation(() => Payment)
+  async updatePayment(@Arg('id') id: string, @Arg('data') data: PaymentInput) {
+    return this.paymentService.update(id, data);
   }
 }
