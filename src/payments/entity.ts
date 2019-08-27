@@ -16,6 +16,7 @@ export class Payment {
   @Column({ type: 'float' })
   amount: number;
 
+  @Field()
   @Column({ default: false })
   pending: boolean;
 

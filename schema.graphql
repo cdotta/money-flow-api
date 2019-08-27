@@ -12,6 +12,7 @@ type Payment {
   id: ID!
   description: String!
   amount: Float!
+  pending: Boolean!
   paidAt: DateTime
 }
 
