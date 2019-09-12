@@ -3,7 +3,7 @@ import { plainToClass } from 'class-transformer';
 import { Service } from 'typedi';
 
 import { Payment } from './entity';
-import { PaymentInput } from './input';
+import { PaymentInput, PaymentUpdateInput } from './input';
 
 @Service()
 export class PaymentService {
@@ -18,7 +18,7 @@ export class PaymentService {
     return this.repository.save(payment);
   }
 
-  async update(id: string, data: PaymentInput) {
+  async update(id: string, data: PaymentUpdateInput) {
     const payment = await this.repository.findOne(id);
     if (!payment) {
       throw new Error('not_found');

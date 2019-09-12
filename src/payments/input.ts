@@ -9,4 +9,22 @@ export class PaymentInput implements Partial<Payment> {
 
   @Field()
   amount: number;
+
+  @Field()
+  dueDate: Date;
+}
+
+@InputType()
+export class PaymentUpdateInput implements Partial<Payment> {
+  @Field({ nullable: true })
+  description: string;
+
+  @Field({ nullable: true })
+  amount: number;
+
+  @Field({ nullable: true })
+  pending: boolean;
+
+  @Field({ nullable: true })
+  dueDate: Date;
 }

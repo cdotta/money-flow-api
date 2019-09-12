@@ -5,7 +5,7 @@ scalar DateTime
 
 type Mutation {
   createPayment(data: PaymentInput!): Payment!
-  updatePayment(data: PaymentInput!, id: String!): Payment!
+  updatePayment(data: PaymentUpdateInput!, id: ID!): Payment!
 }
 
 type Payment {
@@ -13,12 +13,20 @@ type Payment {
   description: String!
   amount: Float!
   pending: Boolean!
-  paidAt: DateTime
+  dueDate: DateTime
 }
 
 input PaymentInput {
   description: String!
   amount: Float!
+  dueDate: DateTime!
+}
+
+input PaymentUpdateInput {
+  description: String
+  amount: Float
+  pending: Boolean
+  dueDate: DateTime
 }
 
 type Query {

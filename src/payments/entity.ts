@@ -21,6 +21,6 @@ export class Payment {
   pending: boolean;
 
   @Field(() => Date, { nullable: true })
-  @Column({ name: 'paid_at', nullable: true })
-  paidAt: Date;
+  @Column({ name: 'due_date', nullable: true })
+  dueDate: Date;
 }
