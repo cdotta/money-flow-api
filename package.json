@@ -5,7 +5,7 @@
   "repository": "Money Flow",
   "main": "index.js",
   "scripts": {
-    "dev": "ts-node-dev --inspect --respawn --transpileOnly ./src/index.ts",
+    "dev": "ts-node-dev --inspect --respawn --transpileOnly --ignore-watch node_modules ./src/index.ts",
     "format": "pretty-quick --staged",
     "lint": "eslint .",
     "prettier": "prettier --write \"src/**/*.ts\" \"tests/**/*.ts\"",

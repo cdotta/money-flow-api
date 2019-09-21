@@ -27,7 +27,15 @@ export class PaymentService {
     return this.repository.save(newPayment);
   }
 
-  all(): Promise<Payment[]> {
+  all({ dueDate }: { dueDate?: Date }): Promise<Payment[]> {
+    if (dueDate) {
+      return this.repository
+        .createQueryBuilder('payment')
+        .where("date_trunc('month', payment.due_date) = date_trunc('month', :dueDate::date)", {
+          dueDate: dueDate.toISOString(),
+        })
+        .getMany();
+    }
     return this.repository.find();
   }
 }

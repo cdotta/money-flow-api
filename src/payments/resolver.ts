@@ -9,8 +9,8 @@ export class PaymentResolver {
   constructor(private readonly paymentService: PaymentService) {}
 
   @Query(() => [Payment])
-  payments(): Promise<Payment[]> {
-    return this.paymentService.all();
+  payments(@Arg('dueDate', { nullable: true }) dueDate: Date): Promise<Payment[]> {
+    return this.paymentService.all({ dueDate });
   }
 
   @Mutation(() => Payment)
