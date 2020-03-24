@@ -5,8 +5,8 @@ import { setup as setupDB } from './db';
 setupDB()
   .then(setupApp)
   .then(app => {
-    app.listen(3000, () => {
-      console.log('listening at 3000');
+    app.listen(3001, () => {
+      console.log('listening at 3001');
     });
   })
   .catch(error => console.log(error));

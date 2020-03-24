@@ -4,7 +4,7 @@ The javascript `Date` as string. Type represents date and time as the ISO Date s
 scalar DateTime
 
 type Mutation {
-  createPayment(data: PaymentInput!): Payment!
+  createPayment(payment: PaymentInput!): Payment!
   updatePayment(data: PaymentUpdateInput!, id: ID!): Payment!
 }
 
@@ -13,13 +13,23 @@ type Payment {
   description: String!
   amount: Float!
   pending: Boolean!
-  dueDate: DateTime
+  dueMonth: Float!
+  dueYear: Float!
+}
+
+input PaymentFilterInput {
+  pending: Boolean
+  fromDueMonth: Float
+  toDueMonth: Float
+  fromDueYear: Float
+  toDueYear: Float
 }
 
 input PaymentInput {
   description: String!
   amount: Float!
-  dueDate: DateTime!
+  dueMonth: Float!
+  dueYear: Float!
 }
 
 input PaymentUpdateInput {
@@ -31,5 +41,5 @@ input PaymentUpdateInput {
 
 type Query {
   hello: String!
-  payments(dueDate: DateTime): [Payment!]!
+  payments(filter: PaymentFilterInput): [Payment!]!
 }

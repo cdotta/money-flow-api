@@ -1,5 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 import { ObjectType, Field, ID } from 'type-graphql';
+import { Min, Max } from 'class-validator';
 
 @ObjectType()
 @Entity()
@@ -20,7 +21,13 @@ export class Payment {
   @Column({ default: false })
   pending: boolean;
 
-  @Field({ nullable: true })
-  @Column({ name: 'due_date', nullable: true })
-  dueDate: Date;
+  @Field()
+  @Column({ name: 'due_month', nullable: false })
+  @Min(1)
+  @Max(12)
+  dueMonth: number;
+
+  @Field()
+  @Column({ name: 'due_year', nullable: false })
+  dueYear: number;
 }

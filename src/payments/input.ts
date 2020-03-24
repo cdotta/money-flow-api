@@ -11,7 +11,28 @@ export class PaymentInput implements Partial<Payment> {
   amount: number;
 
   @Field()
-  dueDate: Date;
+  dueMonth: number;
+
+  @Field()
+  dueYear: number;
+}
+
+@InputType()
+export class PaymentFilterInput {
+  @Field({ nullable: true })
+  pending?: boolean;
+
+  @Field({ nullable: true })
+  fromDueMonth?: number;
+
+  @Field({ nullable: true })
+  toDueMonth?: number;
+
+  @Field({ nullable: true })
+  fromDueYear?: number;
+
+  @Field({ nullable: true })
+  toDueYear?: number;
 }
 
 @InputType()
