@@ -10,7 +10,6 @@ export class PaymentResolver {
 
   @Query(() => [Payment])
   payments(@Arg('filter', { nullable: true }) filter: PaymentFilterInput): Promise<Payment[]> {
-    console.log(filter);
     return this.paymentService.all(filter);
   }
 

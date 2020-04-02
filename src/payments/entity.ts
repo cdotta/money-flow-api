@@ -18,7 +18,7 @@ export class Payment {
   amount: number;
 
   @Field()
-  @Column({ default: false })
+  @Column({ default: true })
   pending: boolean;
 
   @Field()
