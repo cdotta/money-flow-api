@@ -22,4 +22,12 @@ export class PaymentResolver {
   async updatePayment(@Arg('id', () => ID) id: string, @Arg('data') data: PaymentUpdateInput) {
     return this.paymentService.update(id, data);
   }
+
+  @Mutation(() => [Payment])
+  async updatePayments(
+    @Arg('ids', () => [ID]) ids: string[],
+    @Arg('data') data: PaymentUpdateInput,
+  ) {
+    return this.paymentService.updateBatch(ids, data);
+  }
 }

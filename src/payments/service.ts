@@ -27,6 +27,14 @@ export class PaymentService {
     return this.repository.save(newPayment);
   }
 
+  async updateBatch(ids: string[], data: PaymentUpdateInput): Promise<Payment[]> {
+    if (ids.length > 0 && Object.keys(data).length > 0) {
+      await this.repository.update(ids, data);
+    }
+
+    return this.repository.findByIds(ids);
+  }
+
   all(filter: PaymentFilterInput = {}): Promise<Payment[]> {
     let queryBuilder = this.repository.createQueryBuilder('payment');
     if (filter.hasOwnProperty('pending')) {
