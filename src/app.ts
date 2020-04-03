@@ -5,10 +5,11 @@ import Express from 'express';
 
 import { HelloResolver } from './hello/resolver';
 import { PaymentResolver } from './payments/resolver';
+import { RecurringPaymentResolver } from './recurring-payments/resolver';
 
 const app: Express.Application = Express();
 
-export const resolvers = [HelloResolver, PaymentResolver];
+export const resolvers = [HelloResolver, PaymentResolver, RecurringPaymentResolver];
 
 export async function setup(): Promise<Express.Application> {
   const schema = await buildSchema({

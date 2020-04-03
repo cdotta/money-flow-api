@@ -7,6 +7,7 @@ type Mutation {
   createPayment(payment: PaymentInput!): Payment!
   updatePayment(data: PaymentUpdateInput!, id: ID!): Payment!
   updatePayments(data: PaymentUpdateInput!, ids: [ID!]!): [Payment!]!
+  createRecurringPayment(recurringPayment: RecurringPaymentInput!): RecurringPayment!
 }
 
 type Payment {
@@ -43,4 +44,16 @@ input PaymentUpdateInput {
 type Query {
   hello: String!
   payments(filter: PaymentFilterInput): [Payment!]!
+  recurringPayments: [RecurringPayment!]!
+}
+
+type RecurringPayment {
+  id: ID!
+  description: String!
+  defaultAmount: Float!
+}
+
+input RecurringPaymentInput {
+  description: String!
+  defaultAmount: Float!
 }
