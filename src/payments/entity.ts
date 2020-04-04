@@ -4,9 +4,12 @@ import {
   Column,
   CreateDateColumn,
   UpdateDateColumn,
+  ManyToOne,
+  JoinColumn,
 } from 'typeorm';
 import { ObjectType, Field, ID } from 'type-graphql';
 import { Min, Max } from 'class-validator';
+import { RecurringPayment } from '../recurring-payments/entity';
 
 @ObjectType()
 @Entity()
@@ -36,6 +39,14 @@ export class Payment {
   @Field()
   @Column({ name: 'due_year', nullable: false })
   dueYear: number;
+
+  @Field({ nullable: true })
+  @Column({ name: 'recurring_payment_id', nullable: true })
+  recurringPaymentId?: number;
+
+  @ManyToOne(() => RecurringPayment, recurringPayment => recurringPayment.payments)
+  @JoinColumn({ name: 'recurring_payment_id' })
+  recurringPayment: RecurringPayment;
 
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;

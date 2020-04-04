@@ -45,6 +45,7 @@ type Query {
   hello: String!
   payments(filter: PaymentFilterInput): [Payment!]!
   recurringPayments: [RecurringPayment!]!
+  virtualPayments: [VirtualPayment!]!
 }
 
 type RecurringPayment {
@@ -56,4 +57,14 @@ type RecurringPayment {
 input RecurringPaymentInput {
   description: String!
   defaultAmount: Float!
+}
+
+type VirtualPayment {
+  id: String!
+  description: String!
+  amount: Float!
+  pending: Boolean!
+  dueMonth: Float!
+  dueYear: Float!
+  recurringPaymentId: Float!
 }

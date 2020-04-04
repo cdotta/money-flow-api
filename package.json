@@ -20,6 +20,7 @@
     "@types/node": "^12.0.0",
     "@types/pg": "^7.4.14",
     "@types/supertest": "^2.0.7",
+    "@types/uuid": "^7.0.2",
     "@typescript-eslint/eslint-plugin": "^1.7.0",
     "@typescript-eslint/parser": "^1.7.0",
     "eslint": "^5.16.0",
@@ -45,7 +46,8 @@
     "type-graphql": "^0.17.3",
     "typedi": "^0.8.0",
     "typeorm": "^0.2.17",
-    "typescript": "^3.4.5"
+    "typescript": "^3.4.5",
+    "uuid": "^7.0.3"
   },
   "husky": {
     "hooks": {
