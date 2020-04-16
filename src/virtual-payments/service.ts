@@ -1,10 +1,11 @@
 import { Connection, Repository, IsNull, Not, In } from 'typeorm';
 import { Service } from 'typedi';
 import { v4 } from 'uuid';
+import { plainToClass } from 'class-transformer';
 
 import { RecurringPayment } from '../recurring-payments/entity';
 import { Payment } from '../payments/entity';
-import { VirtualPaymentFilterInput } from './input';
+import { VirtualPaymentFilterInput, MaterializePaymentInput } from './input';
 import { VirtualPayment } from './dto';
 
 @Service()
@@ -25,9 +26,14 @@ export class VirtualPaymentService {
       .getRawMany()
       .then(result => result.map(({ recurring_payment_id: id }) => id));
 
-    const virtualRecurringPayments = await this.recurringPaymentRepository.find({
-      where: { id: Not(In(materializedRecurringPaymentIds)) },
-    });
+    const virtualCondition =
+      materializedRecurringPaymentIds.length > 0
+        ? {
+            where: { id: Not(In(materializedRecurringPaymentIds)) },
+          }
+        : {};
+
+    const virtualRecurringPayments = await this.recurringPaymentRepository.find(virtualCondition);
 
     return virtualRecurringPayments.map(recurringPayment => ({
       id: v4(),
@@ -38,5 +44,28 @@ export class VirtualPaymentService {
       dueMonth,
       dueYear,
     }));
+  }
+
+  async materializePayments(
+    recurringPaymentIds: number[],
+    data: MaterializePaymentInput,
+  ): Promise<Payment[]> {
+    const recurringPayments = await this.recurringPaymentRepository.findByIds([
+      ...recurringPaymentIds,
+    ]);
+
+    const payments = plainToClass(
+      Payment,
+      recurringPayments.map(recurringPayment => {
+        return {
+          description: recurringPayment.description,
+          amount: recurringPayment.defaultAmount,
+          pending: true,
+          recurringPaymentId: recurringPayment.id,
+          ...data,
+        };
+      }),
+    );
+    return this.paymentRepository.save(payments);
   }
 }
