@@ -16,6 +16,14 @@ export class VirtualPaymentResolver {
     return virtualPayments;
   }
 
+  @Mutation(() => Payment)
+  materializePayment(
+    @Arg('recurringPaymentId', () => ID) recurringPaymentId: number,
+    @Arg('data') data: MaterializePaymentInput,
+  ) {
+    return this.virtualPaymentService.materializePayment(recurringPaymentId, data);
+  }
+
   @Mutation(() => [Payment])
   materializePayments(
     @Arg('recurringPaymentIds', () => [ID]) recurringPaymentIds: number[],

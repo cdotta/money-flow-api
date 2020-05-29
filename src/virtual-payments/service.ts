@@ -26,14 +26,15 @@ export class VirtualPaymentService {
       .getRawMany()
       .then(result => result.map(({ recurring_payment_id: id }) => id));
 
-    const virtualCondition =
-      materializedRecurringPaymentIds.length > 0
-        ? {
-            where: { id: Not(In(materializedRecurringPaymentIds)) },
-          }
-        : {};
+    let conditions = {};
 
-    const virtualRecurringPayments = await this.recurringPaymentRepository.find(virtualCondition);
+    if (materializedRecurringPaymentIds.length > 0) {
+      conditions = {
+        where: { id: Not(In(materializedRecurringPaymentIds)) },
+      };
+    }
+
+    const virtualRecurringPayments = await this.recurringPaymentRepository.find(conditions);
 
     return virtualRecurringPayments.map(recurringPayment => ({
       id: v4(),
@@ -44,6 +45,26 @@ export class VirtualPaymentService {
       dueMonth,
       dueYear,
     }));
+  }
+
+  async materializePayment(
+    recurringPaymentId: number,
+    data: MaterializePaymentInput,
+  ): Promise<Payment> {
+    const recurringPayment = await this.recurringPaymentRepository.findOne(recurringPaymentId);
+
+    if (!recurringPayment) {
+      throw new Error('not_found');
+    }
+
+    const payment = plainToClass(Payment, {
+      description: recurringPayment.description,
+      amount: recurringPayment.defaultAmount,
+      pending: true,
+      recurringPaymentId: recurringPayment.id,
+      ...data,
+    });
+    return this.paymentRepository.save(payment);
   }
 
   async materializePayments(

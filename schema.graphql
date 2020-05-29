@@ -3,11 +3,21 @@ The javascript `Date` as string. Type represents date and time as the ISO Date s
 """
 scalar DateTime
 
+input MaterializePaymentInput {
+  description: String
+  amount: Float
+  pending: Boolean
+  dueMonth: Float!
+  dueYear: Float!
+}
+
 type Mutation {
   createPayment(payment: PaymentInput!): Payment!
   updatePayment(data: PaymentUpdateInput!, id: ID!): Payment!
   updatePayments(data: PaymentUpdateInput!, ids: [ID!]!): [Payment!]!
   createRecurringPayment(recurringPayment: RecurringPaymentInput!): RecurringPayment!
+  materializePayment(data: MaterializePaymentInput!, recurringPaymentId: ID!): Payment!
+  materializePayments(data: MaterializePaymentInput!, recurringPaymentIds: [ID!]!): [Payment!]!
 }
 
 type Payment {
@@ -17,6 +27,7 @@ type Payment {
   pending: Boolean!
   dueMonth: Float!
   dueYear: Float!
+  recurringPaymentId: Float
 }
 
 input PaymentFilterInput {
@@ -45,7 +56,7 @@ type Query {
   hello: String!
   payments(filter: PaymentFilterInput): [Payment!]!
   recurringPayments: [RecurringPayment!]!
-  virtualPayments: [VirtualPayment!]!
+  virtualPayments(filter: VirtualPaymentFilterInput!): [VirtualPayment!]!
 }
 
 type RecurringPayment {
@@ -67,4 +78,9 @@ type VirtualPayment {
   dueMonth: Float!
   dueYear: Float!
   recurringPaymentId: Float!
+}
+
+input VirtualPaymentFilterInput {
+  dueMonth: Float!
+  dueYear: Float!
 }
